@@ -2,23 +2,12 @@ import React, { useState } from "react"
 
 import Header from "./Header";
 import Footer from "./Footer";
-import Link from "./LinkList";
 import AddLink from "./AddLink";
+import Link from "./LinkList"
 
 import savedLinks from "../savedLink"
 //import Search from "./Search";
 console.log(savedLinks)
-
-function CreateCard(link, index){
-  return (
-    <Link 
-      key={index}
-      title={link.title}
-      url={link.url}
-    />
-  )
-}
-
 
 function App() {
   const [list, setList] = useState(savedLinks)
@@ -26,26 +15,26 @@ function App() {
 
   function deleteItem (index) {
     console.log("delete item")
-    let array = [...list]
-    array.splice(index, 1)
-    setList(array)
+    let newList = [...list]
+    newList.splice(index, 1)
+    setList(newList)
   }
 
   //console.log(list)
   return (
-    <div className="App">
+      <div className="App">
 
-      <Header />
-       {/* Search component */}
-       <div className= "search">
-        <input
-            type="text"
-            placeholder='Search link...'
-            onChange={(event) => {
-                setSearch(event.target.value)
-            }} 
-        />
-    </div>
+        <Header />
+        {/* Search component */}
+        <div className= "search">
+          <input
+              type="text"
+              placeholder='Search link...'
+              onChange={(event) => {
+                  setSearch(event.target.value)
+              }} 
+          />
+      </div>
 
       <div>
         {/* Add link component */}
@@ -56,7 +45,8 @@ function App() {
       </div>
 
       <div>
-        {/* Link component */}
+        {/* Link List  component */}
+
         {list.filter((val) => {
           if (search === "") {
             return val
@@ -64,7 +54,15 @@ function App() {
             val.title.toLowerCase().includes(search.toLowerCase())) {
               return val
             }
-        }).map(CreateCard)}
+        }).map((object, index) => 
+        <Link 
+          key={index} 
+          index={index} 
+          title={object.title} 
+          url={object.url} 
+          delete={(i) => deleteItem(i)}  
+        />)}
+        
       </div>
 
        <Footer />
